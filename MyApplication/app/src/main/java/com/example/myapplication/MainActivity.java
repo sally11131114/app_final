@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements ExampleDialog.Exa
             @Override
             // 按鈕事件
             public void onClick(View view) {
-                Thread thread = new Thread(testThread);
+                Thread thread = new Thread(mutiThread);
                 thread.start(); // 開始執行
             }
         });
