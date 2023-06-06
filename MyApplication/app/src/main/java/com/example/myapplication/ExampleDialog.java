@@ -58,22 +58,8 @@ public class ExampleDialog extends AppCompatDialogFragment{
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String username = editTextUsername.getText().toString();
-                        String password = editTextPassword.getText().toString();
                         User_name = editTextUsername.getText().toString();
                         User_pass = editTextPassword.getText().toString();
-                        try {
-                            postData = "username=" + URLEncoder.encode(User_name, "UTF-8") +
-                                    "&password=" + URLEncoder.encode(User_pass, "UTF-8");
-                        } catch (UnsupportedEncodingException e) {
-                            throw new RuntimeException(e);
-                        }
-                        try {
-                            listener.applyTexts(username, password);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
                         Thread thread = new Thread(Register_thread);
                         thread.start(); // 開始執行
                     }
@@ -106,7 +92,7 @@ public class ExampleDialog extends AppCompatDialogFragment{
         public void run()
         {
             try {
-                URL url = new URL("http://192.168.1.137/register_app.php");
+                URL url = new URL("http://140.116.82.9:9000/register.php");
                 // 開始宣告 HTTP 連線需要的物件，這邊通常都是一綑的
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 // 建立 Google 比較挺的 HttpURLConnection 物件
@@ -126,19 +112,32 @@ public class ExampleDialog extends AppCompatDialogFragment{
                 connection.connect(); // 開始連線
                 OutputStream os = connection.getOutputStream();
                 OutputStreamWriter objout = new OutputStreamWriter(os, "UTF-8");
-//                objout.write(response_j.toString());
+                objout.write(response_j.toString());
                 objout.flush();
                 os.close();
                 objout.close();
-
-
                 // 讀取輸入串流並存到字串的部分
                 // 取得資料後想用不同的格式
                 // 例如 Json 等等，都是在這一段做處理
 
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // 如果 HTTP 回傳狀態是 OK ，而不是 Error
+                    InputStream inputStream =
+                            connection.getInputStream();
+                    // 取得輸入串流
+                    BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
+                    // 讀取輸入串流的資料
+                    String box = ""; // 宣告存放用字串
+                    String line = null; // 宣告讀取用的字串
+                    while((line = bufReader.readLine()) != null) {
+                        box += line + "\n";
+                        // 每當讀取出一列，就加到存放字串後面
+                    }
+                    inputStream.close(); // 關閉輸入串流
+                    result = box; // 把存放用字串放到全域變數
                     Log.d("HTTP_output", "output!");
+                    Log.d("SUCCESS result", "" +": "+result);
                 } else {
                     // 处理连接错误
                     // 例如，您可以获取错误消息
