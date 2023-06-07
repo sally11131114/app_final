@@ -3,13 +3,17 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -46,17 +50,21 @@ public class MainActivity extends AppCompatActivity implements ExampleDialog.Exa
             @Override
             // 按鈕事件
             public void onClick(View view) {
-//                login_User_name = editTextUsername.getText().toString();
-//                login_User_pass = editTextPassword.getText().toString();
-//                Thread thread = new Thread(mutiThread);
-//                thread.start(); // 開始執行
+                Snackbar.make(view, "登入成功！", Snackbar.LENGTH_SHORT).show();
+                login_User_name = editTextUsername.getText().toString();
+                login_User_pass = editTextPassword.getText().toString();
+                Thread thread = new Thread(mutiThread);
+                thread.start(); // 開始執行
 //                add_Contest("我想睡覺好累==", 1, "12:30:00", 30, "King", 5, "test.png");
 //                add_Attendance("sally", "我想睡覺好累==", 0);
-//                add_Friend("sally", "yicheng");
+//                add_Friend("sally", "1235");
 //                getContestParticipant("再睡5分鐘");
 //                getAttendedContest("sally");
-//                getFriend("marow");
-                getAward("marow");
+//                getFriend("1235");
+//                getAward("marow");
+//                GetAttendedContestManager FriendManager = new GetAttendedContestManager();
+//                JSONArray FriendData  = FriendManager.getAttendedContest("sally");
+//                Log.d("Manager result", "" +": "+Data);
             }
         });
         btn_register.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +74,12 @@ public class MainActivity extends AppCompatActivity implements ExampleDialog.Exa
                 // 按下之後會執行的程式碼，可以直接寫也可以呼叫方法
                 ExampleDialog Dialog = new ExampleDialog();
                 Dialog.show(getSupportFragmentManager(), "example dialog");
+//                try {
+//                    Thread.sleep(5000); // 暫停 2 秒
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                Snackbar.make(view, "註冊成功！", Snackbar.LENGTH_SHORT).show();
             }
         });
 

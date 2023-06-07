@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -48,7 +50,7 @@ public class ExampleDialog extends AppCompatDialogFragment{
         View view = inflater.inflate(R.layout.dialog_e, null);
 
         builder.setView(view)
-                .setTitle("Login")
+                .setTitle("Register")
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -62,7 +64,9 @@ public class ExampleDialog extends AppCompatDialogFragment{
                         User_pass = editTextPassword.getText().toString();
                         Thread thread = new Thread(Register_thread);
                         thread.start(); // 開始執行
+
                     }
+
                 });
 
         editTextUsername = view.findViewById(R.id.edit_username);
@@ -107,6 +111,7 @@ public class ExampleDialog extends AppCompatDialogFragment{
                 Map<String,  String> user = new HashMap<String, String>();
                 user.put("username", User_name);
                 user.put("userpass", User_pass);
+                user.put("avatar", "normal");
                 JSONObject response_j = new JSONObject(user);
                 Log.v("提交數據", response_j.toString());
                 connection.connect(); // 開始連線
